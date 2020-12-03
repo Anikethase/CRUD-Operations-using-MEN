@@ -3,7 +3,9 @@ const express =  require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    res.json('Sample text');
+    res.render('hospital/addOrEdit', {
+        viewTitle : "Insert Hospital"
+    });
 });
 
-module.exports= router;
+module.exports = router;
