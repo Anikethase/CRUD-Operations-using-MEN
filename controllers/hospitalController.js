@@ -1,7 +1,6 @@
 const express =  require('express');
 const mongoose = require('mongoose');
 
-//const Hospital = mongoose.model('Hospital');
 const Hospital = require('../models/hospital.model');
 
 
@@ -27,16 +26,51 @@ function insertRecord(req, res) {
 
     hospital.save((err,doc) => {
         if(!err)
-            res.redirect('hospital/list');
+           res.redirect('hospital/list');
         else {
-            console.log('Error during record insertion : ' + err);
+            if(err.name == 'ValidationError') {
+                handleValidationError(err,req.body);
+                res.render('hospital/addOrEdit', {
+                    viewTitle : "Insert Hospital Data",
+                    hospital : req.body
+                });
+            }
+            else {
+                console.log('Error during record insertion : ' + err);
+            }
         }
     });
 
 }
 
 router.get('/list', (req, res) => {
-    res.json('from list');
+    Hospital.find((err, docs) => {
+        if(!err){
+            res.render('hospital/list', {
+                list : docs
+            });
+        }
+        else {
+            console.log('Error in retrieving employee list : ' + err);
+        }
+    })
 });
+
+function handleValidationError(err,body){
+    for(field in err.errors)
+    {
+        switch(err.errors[field].path) {
+            case 'fullName': 
+                body['fullNameError'] = err.errors[field].message;
+                break;
+            case 'email': 
+                body['emailError'] = err.errors[field].message;
+                break;
+
+            default :
+                break;
+        }
+    }
+}
 
 module.exports = router;

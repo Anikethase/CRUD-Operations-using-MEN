@@ -4,6 +4,7 @@ const mongoose=require('mongoose'),
 const hospitalSchema = mongoose.Schema({
     fullName : {
         type : String,
+        require : "The Name is Required.",
     },
 
     email : {
@@ -16,5 +17,3 @@ const hospitalSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Hospital', hospitalSchema);
-
-//mongoose.model('Hospital', hospitalSchema);

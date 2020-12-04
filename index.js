@@ -4,7 +4,8 @@ const body_parser=require('body-parser');
 const mongoose=require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
-
+const Handlebars = require('handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 const hospitalController = require('./controllers/hospitalController');
 
@@ -15,7 +16,8 @@ const port=3010;
 
 
 app.set('views', path.join(__dirname, '/views/'));
-app.engine('hbs', exphbs({ extname : 'hbs', defaultLayout : 'mainLayout', layoutsDir:__dirname + '/views/layouts/' }));
+app.engine('hbs', exphbs({ extname : 'hbs', defaultLayout : 'mainLayout', layoutsDir:__dirname + '/views/layouts/',
+handlebars: allowInsecurePrototypeAccess(Handlebars) }));
 app.set('view engine', 'hbs');
 
 app.use(body_parser.urlencoded({extended:true}));
