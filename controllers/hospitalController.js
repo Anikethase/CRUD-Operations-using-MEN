@@ -14,7 +14,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    insertRecord(req, res);
+    if(req.body._id == '')
+        insertRecord(req, res);
+    else 
+        updateRecord(req, res);
 });
 
 function insertRecord(req, res) {
@@ -42,7 +45,24 @@ function insertRecord(req, res) {
     });
 
 }
-
+function updateRecord(req, res) {
+    Hospital.findOneAndUpdate({_id:req.body._id}, req.body, {new:true}, (err,doc) => {
+        if(!err)
+           res.redirect('hospital/list');
+        else {
+            if(err.name == 'ValidationError') {
+                handleValidationError(err,req.body);
+                res.render('hospital/addOrEdit', {
+                    viewTitle : "Update Hospital Data",
+                    hospital : req.body
+                });
+            }
+            else {
+                console.log('Error during record insertion : ' + err);
+            }
+        }
+    });
+}
 router.get('/list', (req, res) => {
     Hospital.find((err, docs) => {
         if(!err){
@@ -54,6 +74,17 @@ router.get('/list', (req, res) => {
             console.log('Error in retrieving employee list : ' + err);
         }
     })
+});
+
+router.get('/:hospital_id', (req, res) => {
+    Hospital.findById(req.params.hospital_id, (err, doc) => {
+        if(!err) {
+            res.render('hospital/addOrEdit', {
+                viewTitle : "Update Hospital Data",
+                hospital : doc
+            });
+        }
+    });
 });
 
 function handleValidationError(err,body){
