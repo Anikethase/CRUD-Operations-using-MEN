@@ -87,6 +87,17 @@ router.get('/:hospital_id', (req, res) => {
     });
 });
 
+router.get('/delete/:hospital_id', (req, res) => {
+    Hospital.findByIdAndRemove(req.params.hospital_id, (err, doc) => {
+        if(!err)
+           res.redirect('/hospital/list');
+        else {
+            console.log('Error during record insertion : ' + err);
+        }
+    });
+});
+
+
 function handleValidationError(err,body){
     for(field in err.errors)
     {

@@ -24,7 +24,7 @@
             <td>{{this.city}}</td>
             <td>
                 <a  style="color: white;" href="/hospital/{{this._id}}"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                <a  style="color: white;" ><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+                <a  style="color: white;" href="/hospital/delete/{{this._id}}" onclick="return confirm('Are you sure to delete the record?'');"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
             </td>
         </tr>
         {{/each}}
