@@ -13,10 +13,12 @@ const databaseURL='mongodb://localhost:27017/HospitalDB';
 const app=express();
 const port=3010;
 
+
 app.set('views', path.join(__dirname, '/views/'));
 app.engine('hbs', exphbs({ extname : 'hbs', defaultLayout : 'mainLayout', layoutsDir:__dirname + '/views/layouts/' }));
 app.set('view engine', 'hbs');
 
+app.use(body_parser.urlencoded({extended:true}));
 app.use(body_parser.json());
 
 app.use('/hospital', hospitalController);

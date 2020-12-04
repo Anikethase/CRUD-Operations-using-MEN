@@ -1,7 +1,7 @@
-const mongoose=require('mongoose');
+const mongoose=require('mongoose'),
+    path = require('path');
 
-
-var hospitalSchema = new mongoose.Schema({
+const hospitalSchema = mongoose.Schema({
     fullName : {
         type : String,
     },
@@ -15,4 +15,6 @@ var hospitalSchema = new mongoose.Schema({
     },
 });
 
-mongoose.model('Hospital', hospitalSchema);
+module.exports = mongoose.model('Hospital', hospitalSchema);
+
+//mongoose.model('Hospital', hospitalSchema);
